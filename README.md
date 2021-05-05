@@ -84,4 +84,23 @@ You can then request predictions from your model using the /model/parse endpoint
 curl localhost:5005/model/parse -d '{"text":"hello"}'
 ```
 
+## Updating your NLU Data
+For this example, our bot will be focused primarily on post-trade reconcilliation.  To make sure our bot understands these types of requests, we need to make sure that our bot understands intents and entities that are relevant to this domain.  To do so define an intent and add some sample data in you ```data/nlu.yml``` file:
 
+```
+nlu:
+
+- intent: request_trade_status
+  examples: |
+    - Can you show me the trades?
+    - Are there any open trades
+    - Let's see trades
+    - Show me trades
+    - Trades?
+    - Can I see the trades?
+    - Are there any [unresolved](trade_state) trades?
+    - Show me the [unresolved](trade_state) trades?
+    - Can I see the [unresolved](trade_state) trades please?
+    - [unresolved](trade_state) trades?
+
+```
