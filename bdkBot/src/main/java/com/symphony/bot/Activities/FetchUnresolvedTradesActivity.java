@@ -52,8 +52,6 @@ public class FetchUnresolvedTradesActivity extends FormReplyActivity<FormReplyCo
         HashMap tradeList = mongoActivity.getTrades(counterParty, state);
 
         Message message = Message.builder().template(this.template, tradeList).build();
-        logger.debug(message.getData());
-        logger.debug(message.getContent());
         messageService.send(formReplyContext.getSourceEvent().getStream().getStreamId(), message);
 
     }

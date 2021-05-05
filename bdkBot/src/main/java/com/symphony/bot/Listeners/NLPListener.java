@@ -37,6 +37,8 @@ public class NLPListener {
     private String rasaActionServer;
     @Value("${bot-id}")
     private String botId;
+    @Value("${rasa-secret}")
+    private String rasaSecret;
 
     private MessageService messageService;
     ObjectMapper objectMapper = new ObjectMapper();
@@ -57,7 +59,7 @@ public class NLPListener {
         Map<String, Object> authPayload = new HashMap<>();
         authPayload.put("user", user);
 
-        Algorithm algorithm = Algorithm.HMAC256("sample_rasa_secret");
+        Algorithm algorithm = Algorithm.HMAC256(rasaSecret);
         this.jwtToken = JWT.create()
                 .withPayload(authPayload)
                 .sign(algorithm);
@@ -102,6 +104,10 @@ public class NLPListener {
 
     public void extractEntities(ParseModel response, RealTimeEvent<V4MessageSent> message){
         String intent = response.getIntent().getName();
+        logger.debug("-------------------------------------------------------------------------------------------");
+        logger.debug("intent : " + intent);
+        logger.debug("entities : " + response.getEntities().toString());
+        logger.debug("-------------------------------------------------------------------------------------------");
         HashMap<String, String> entities = new HashMap<String, String>();
         if (response.getEntities().isEmpty()){
             entities.put("trade_state", "all");
@@ -119,9 +125,6 @@ public class NLPListener {
         else {
             return;
         }
-//        else{
-//            messageService.send(message.getSource().getMessage().getStream().getStreamId(), "Sorry, I didn't quite catch that - try asking me about resolving a trade.");
-//        }
     }
 }
 

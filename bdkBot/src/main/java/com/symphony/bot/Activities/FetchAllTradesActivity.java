@@ -35,7 +35,6 @@ public class FetchAllTradesActivity extends FormReplyActivity<FormReplyContext> 
     @Override
     protected void onActivity(FormReplyContext formReplyContext) {
         formReplyContext.getFormValues();
-        messageService.send(formReplyContext.getSourceEvent().getStream().getStreamId(), "my message with the hashtag ");
         logger.debug("looking for all trades");
         String state = formReplyContext.getFormId();
         String counterParty = formReplyContext.getFormValue("counterparty");

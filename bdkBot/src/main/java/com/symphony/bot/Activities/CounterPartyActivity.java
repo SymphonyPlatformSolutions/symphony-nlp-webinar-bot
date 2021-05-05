@@ -56,7 +56,7 @@ public class CounterPartyActivity extends FormReplyActivity<FormReplyContext> {
         }
         else if (formReplyContext.getFormValue("action").startsWith("confirm")){
             logger.debug("trade has been confirmed");
-            Trade trade = new MongoActivity().confirmTrade(tradeId, "RESOLVED");
+            Trade trade = new MongoActivity().confirmTrade(tradeId, "resolved");
             HashMap<String, Trade> tradeData = new HashMap<>();
             tradeData.put("trades", trade);
             Message message = Message.builder().template(this.confirmedTemplate, tradeData).build();

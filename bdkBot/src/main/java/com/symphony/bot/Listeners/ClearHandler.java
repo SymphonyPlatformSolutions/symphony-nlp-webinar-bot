@@ -23,11 +23,6 @@ public class ClearHandler {
 
     @Slash(value = "/clear", mentionBot = false)
     public void onSlashClear(CommandContext context) {
-//        this.connectionService.acceptConnection(347583113335425L);
-//        this.connectionService.acceptConnection(347583113335427L);
-//        this.connectionService.acceptConnection(347583113335428L);
-//        this.connectionService.acceptConnection(347583113335429L);
-//        this.connectionService.acceptConnection(347583113335430L);
         this.messageService.send(context.getStreamId(), Message.builder().template(this.template).build());
 
     }

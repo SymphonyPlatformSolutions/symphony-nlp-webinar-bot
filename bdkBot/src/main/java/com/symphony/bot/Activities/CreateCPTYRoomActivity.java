@@ -35,20 +35,15 @@ public class CreateCPTYRoomActivity extends FormReplyActivity<FormReplyContext> 
     ObjectMapper objectMapper = new ObjectMapper();
     private static Logger logger = LoggerFactory.getLogger(CreateCPTYRoomActivity.class);
 
-    ArrayList<String> smithPartners;
-    ArrayList<String> brownAssociates;
-    ArrayList<String> manhattanCapital;
+    ArrayList<String> counterpartyTraders;
     HashMap<String, Case> tradeStates;
-
 
     public CreateCPTYRoomActivity(MessageService messageService, StreamService streamService) {
         this.template = messageService.templates().newTemplateFromClasspath("/templates/trade.ftl");
         this.messageService = messageService;
         this.streamService = streamService;
         this.tradeStates = new HashMap<>();
-        this.smithPartners = new ArrayList<>(Arrays.asList("347583113335425", "347583113335427", "347583113335428", "347583113335429", "347583113335430"));
-        this.brownAssociates = new ArrayList<>(Arrays.asList("347583113335425", "347583113335427", "347583113335428", "347583113335429", "347583113335430"));
-        this.manhattanCapital = new ArrayList<>(Arrays.asList("347583113335425", "347583113335427", "347583113335428", "347583113335429", "347583113335430"));
+        this.counterpartyTraders = new ArrayList<>(Arrays.asList("347583113335425", "347583113335427", "347583113335428", "347583113335429", "347583113335430"));
     }
 
     @Override
@@ -64,15 +59,7 @@ public class CreateCPTYRoomActivity extends FormReplyActivity<FormReplyContext> 
 
         Trade trade = new MongoActivity().getTrade(tradeId);
         String counterParty = trade.getCounterparty();
-        if (counterParty.equals("Smith Partners")){
-            userArray.addAll(smithPartners);
-        }
-        else if (counterParty.equals("Brown Associates")){
-            userArray.addAll(brownAssociates);
-        }
-        else{
-            userArray.addAll(manhattanCapital);
-        }
+        userArray.addAll(counterpartyTraders);
 
         //create room and post trade details into the room
         V3RoomAttributes tradeRoom = new V3RoomAttributes();
@@ -86,8 +73,9 @@ public class CreateCPTYRoomActivity extends FormReplyActivity<FormReplyContext> 
             userArray.forEach(userId -> streamService.addMemberToRoom(Long.valueOf(userId.toString()), createdRoom.getRoomSystemInfo().getId()));
         }
         catch (Exception e){
-            logger.debug("error adding cpty to room");
+            logger.debug("error adding cpty users to room");
         }
+
         HashMap<String, Trade> tradeData = new HashMap<>();
         tradeData.put("trades", trade);
 

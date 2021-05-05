@@ -31,9 +31,6 @@ public class RequestTradeAction implements TradeAction {
 
     @Override
     public void executeAction(HashMap<String, String> entities, RealTimeEvent<V4MessageSent> message){
-        logger.debug("inside Request trade action -> execute action");
-        logger.debug(entities.toString());
-        logger.debug(entities.get("trade_state"));
         if (entities.get("trade_state").equals("unresolved")){
             final Message messageTemplate = Message.builder().template(unresolvedTemplate).build();
             messageService.send(message.getSource().getMessage().getStream().getStreamId(), messageTemplate);
