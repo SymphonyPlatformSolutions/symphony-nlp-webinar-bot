@@ -104,3 +104,9 @@ nlu:
     - [unresolved](trade_state) trades?
 
 ```
+
+Now our training Rasa model will return an intent=request_trade_status for any of the above messages or ones that are simiar.  The more training data you provide your Rasa NLU server, the more accurate it will be at classifying a message's intent.  
+
+In addition notice the syntax of ```[keyword](entity)``` to properly flag entities within a given messages.  This is an easy way to train your NLU server to extract relevant data from input messages.  
+
+For more information on how to extract entities from a given message continue [here](https://rasa.com/docs/rasa/training-data-format#entities).  Leveraging this functionality is was enables our bot to understand the nature of a given request, thus funneling a user to the correct pathway and returning the appropriate data.
