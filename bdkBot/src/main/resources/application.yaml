@@ -1,0 +1,14 @@
+bdk:
+  host: develop2.symphony.com
+  bot:
+    username: nlp-bdk-bot
+    privateKey:
+      path: rsa/privatekey.pem
+
+rasa-action-server: http://localhost:5005/model/parse
+
+bot-id: 349026222357339
+
+logging:
+  level:
+    com.symphony: debug

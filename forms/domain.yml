@@ -1,0 +1,50 @@
+version: "2.0"
+
+intents:
+  - request_trade_status
+  - inform
+
+entities:
+  - trade_state
+  - date_range
+  - client
+
+slots:
+  trade_state:
+    type: text
+    auto_fill: false
+    influence_conversation: false
+  date_range:
+    type: text
+    auto_fill: false
+    influence_conversation: false
+  client:
+    type: text
+    auto_fill: false
+    influence_conversation: false
+
+responses:
+  utter_ask_trade_state:
+    - text: "Resolved or Unresolved Trades?"
+  utter_ask_date_range:
+    - text: "Please specify a date range for the trades."
+  utter_ask_client:
+    - text: "Specify a counterparty broker, please"
+  utter_submit:
+    - text : "Fetching {trade_state} trades from {date_range} with {client}"
+
+forms:
+  trade_status_form:
+    trade_state:
+      - type: from_entity
+        entity: trade_state
+    date_range:
+      - type: from_entity
+        entity: date_range
+    client:
+      - type: from_entity
+        entity: client
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

@@ -1,0 +1,17 @@
+version: "2.0"
+
+rules:
+  - rule: activate trade status form
+    steps:
+      - intent: request_trade_status
+      - action: trade_status_form
+      - active_loop: trade_status_form
+
+  - rule: submit form
+    condition:
+    - active_loop: trade_status_form
+    steps:
+      - action: trade_status_form
+      - active_loop: null
+      - action: utter_submit
+
