@@ -15,7 +15,6 @@ nlu:
     - Can I see the [unresolved](trade_state) trades please?
     - [unresolved](trade_state) trades?
 
-
 #- intent: inform
 #  examples: |
 #    - [Unresolved](trade_state) please
