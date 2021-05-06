@@ -1,0 +1,25 @@
+bdk:
+  host: develop2.symphony.com
+  bot:
+    username: nlp-bdk-bot
+    privateKey.path: rsa/privatekey.pem
+
+nlp-bot:
+  rasa-server: http://localhost:5005
+  rasa-secret: sample_rasa_secret
+  traders: 347583113335425, 347583113335427, 347583113335428, 347583113335429, 347583113335430
+
+spring:
+  data.mongodb.uri: mongodb://
+  profiles.active: dev
+  jmx.enabled: false
+  main:
+    web-application-type: none
+    banner-mode: off
+
+logging:
+  level:
+    com.symphony.devrel.nlpbot: debug
+    org.apache.catalina.core: ERROR
+    org.springframework: ERROR
+    org.mongodb.driver: ERROR
