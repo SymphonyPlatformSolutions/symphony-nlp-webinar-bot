@@ -6,7 +6,7 @@
 * JDK 8+
 * [Symphony Java BDK](https://github.com/finos/symphony-bdk-java)
 * Maven 3
-* MongoDB (
+* MongoDB 
 * [Rasa NLP](https://rasa.com/docs/rasa/)
 
 ## Rasa Requirments

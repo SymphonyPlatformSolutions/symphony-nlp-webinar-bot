@@ -2,7 +2,7 @@ bdk:
   host: develop2.symphony.com
   bot:
     username: nlp-bdk-bot
-    privateKey.path: rsa/privatekey.pem
+    privateKey.path: bot/rsa/privatekey.pem
 
 nlp-bot:
   rasa-server: http://localhost:5005
@@ -10,7 +10,7 @@ nlp-bot:
   traders: 347583113335425, 347583113335427, 347583113335428, 347583113335429, 347583113335430
 
 spring:
-  data.mongodb.uri: mongodb://
+  data.mongodb.uri: mongodb+srv://nlp-user:symphony@cluster0.y27fx.mongodb.net/trades
   profiles.active: dev
   jmx.enabled: false
   main:
