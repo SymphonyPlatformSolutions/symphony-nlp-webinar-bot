@@ -14,33 +14,24 @@ nlu:
     - Show me the [unresolved](trade_state) trades?
     - Can I see the [unresolved](trade_state) trades please?
     - [unresolved](trade_state) trades?
+    - Can I see [resolved](trade_state) trades please
+    - Are there any [resolved](trade_state) trades?
+    - Show me the trades please
+    - Give me all the [resolved](trade_state) now
+    - Give me the [unresolved](trade_state) trades.
+    - Any trades?
+    - Any [unresolved](trade_state) trades?
+    - Any [resolved](trade_state) trades today?
+    - Trade
 
-#- intent: inform
-#  examples: |
-#    - [Unresolved](trade_state) please
-#    - Trades from [Goldman](client)
-#    - Trades from [Barclays](client)
-#    - Trades from [Citi](client) please
-#    - Give me trades from [today](date_range)
-#    - Show me the trades [today](date_range)
-#    - Give me all the trades with [BlackRock](client)
 
-#- intent: resolve_trade
-#  examples: |
-#    - Can I update [quantity] (delta) to be [10] (quantity)
-#    - Can I update [number of shares] (delta) to be [10] (quantity)
-#    - Can I update [number of shares] (delta) to be [8] (quantity)
-#    - Can I change [number of shares] (delta) to be [10] (quantity)
-#    - Change the [number of shares] (delta) to be [3] (quantity)
-#    - Let's change the [number of shares] (delta) to be [30] (quantity)
-#    - Change the [price] (delta) to be $20.00 (price)
-#    - Update the [price] (delta) to be $20.00 (price)
-#    - Change the [price] (delta) to $20.00 (price)
-#    - Make the [price] (delta) $100.00 (price)
-#    - The [price] (delta) should be $500 (price)
-#    - The [settlement date] (delta) should be 04/16/2021 (settle_date)
-#    - The [settle date] (delta) should be today (settle_date)
-#    - The [settlement date] (delta) is 04/16/2021 (settle_date)
-#    - Update the [settlement date] (delta) to 04/16/2021 (settle_date)
-#    - Change the [settlement date] (delta) should be 04/16/2021 (settle_date)
+- intent: hello
+  examples: |
+    - I need help
+    - Can you help me
+    - Are you a bot?
+    - How do you work
+    - What can bots do?
+    - Can I have help
+    - Can you help me do my job?
 
