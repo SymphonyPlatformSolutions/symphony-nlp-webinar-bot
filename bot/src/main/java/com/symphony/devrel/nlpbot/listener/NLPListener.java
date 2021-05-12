@@ -52,6 +52,10 @@ public class NLPListener {
         log.debug("intent : " + intent);
         log.debug("entities : " + response.getEntities().toString());
         log.debug("-------------------------------------------------------------------------------------------");
+        if (!response.getEntities().isEmpty()){
+            response.getEntities().forEach(entity -> log.debug(entity.getEntity() + " : " + entity.getValue()));
+        }
+
 
         Map<String, String> entities = new HashMap<>();
         if (response.getEntities().isEmpty()) {

@@ -21,8 +21,16 @@ nlu:
     - Give me the [unresolved](trade_state) trades.
     - Any trades?
     - Any [unresolved](trade_state) trades?
-    - Any [resolved](trade_state) trades today?
+    - Any [resolved](trade_state) trades [today](date_range)?
     - Trade
+    - Are there any [unresolved](trade_state) trades from [today](date_range)?
+    - Show me [resolved](trade_state) tradesfrom [today](date_range)
+    - Give me [unresolved](trade_state) trades from [today](date_range)
+    - Are there any [unresolved](trade_state) trades from [today](date_range)?
+    - Show me [resolved](trade_state) trades with [Manhattan Capital](client)
+    - Give me [unresolved](trade_state) trades with [Smith Partners](client)
+    - Are there any [unresolved](trade_state) trades with [Brown Associates](client)?
+
 
 
 - intent: hello
