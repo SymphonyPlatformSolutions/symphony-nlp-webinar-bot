@@ -18,6 +18,12 @@ public class RequestTradeAction implements TradeAction {
     @Override
     public void executeAction(Map<String, String> entities, RealTimeEvent<V4MessageSent> message) {
         String streamId = message.getSource().getMessage().getStream().getStreamId();
+        if (TradeState.valueOf(entities.get("trade_state")) != null ){
+            TradeState tradeState = TradeState.valueOf(entities.get("trade_state"));
+        }
+        else{
+            TradeState tradeState = TradeState.ALL;
+        }
         TradeState tradeState = TradeState.valueOf(entities.get("trade_state"));
 
         switch (tradeState) {

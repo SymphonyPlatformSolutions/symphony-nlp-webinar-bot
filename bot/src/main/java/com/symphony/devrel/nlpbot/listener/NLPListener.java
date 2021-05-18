@@ -4,6 +4,7 @@ import com.symphony.bdk.core.service.message.exception.PresentationMLParserExcep
 import com.symphony.bdk.core.service.message.util.PresentationMLParser;
 import com.symphony.bdk.gen.api.model.V4Message;
 import com.symphony.bdk.gen.api.model.V4MessageSent;
+import com.symphony.bdk.gen.api.model.V4SymphonyElementsAction;
 import com.symphony.bdk.spring.events.RealTimeEvent;
 import com.symphony.devrel.nlpbot.action.RequestTradeAction;
 import com.symphony.devrel.nlpbot.client.RasaClient;
@@ -44,6 +45,11 @@ public class NLPListener {
         ParseModel rasaResponse = rasaClient.parse(request);
         logger.debug(rasaResponse.toString());
         extractEntities(rasaResponse, event);
+    }
+
+    @EventListener
+    public void onElementsAction(RealTimeEvent<V4SymphonyElementsAction> event){
+        log.debug(event.toString());
     }
 
     public void extractEntities(ParseModel response, RealTimeEvent<V4MessageSent> message) {

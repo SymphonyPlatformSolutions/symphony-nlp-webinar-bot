@@ -13,7 +13,15 @@
 * Python 3.6, 3.7, or 3.8 
 * pip3 
 
-## Symphony Bot Configuration
+## Building a Bot with the Java BDK (Bot Developer Kit)
+
+![architecture](bot/src/main/resources/bdk-rasa-architecture.png)
+
+Building a Symphony Bot and integrating with other technologies such as MongoDB and RASA NLP is made easy with the Java BDK.
+
+The functionality of this Symphony Bot comprised of 4 simple componenets: Configuration, Listeners, Activities, and Templating.
+
+### 1. Symphony Bot Configuration
 
 ```
 bdk:
@@ -29,6 +37,118 @@ logging:
   level:
     com.symphony: debug
 ```
+
+### 2. Listeners
+Bot event listeners are in many cases the entry point for your Bot Application.  To create a listener, you can annotate a function with the convenient Spring Boot @EventListener annotation:
+
+```
+@EventListener
+public void onMessageSent(RealTimeEvent<V4MessageSent> event) {
+    V4Message message = event.getSource().getMessage();
+    String messageText = null;
+    try {
+        messageText = PresentationMLParser.getTextContent(message.getMessage());
+    } catch (PresentationMLParserException ignored) {}
+```   
+The above function will capture all incoming messages where you can funnel them into your bot's custom business logic. 
+
+### 3.  Activities
+The majority of the bot's custom business logic will exist inside of Activities or building blocks for a workflow.  There are currently two types of activities, CommandActivities (activities that are triggered when messages are sent) and FormReplyAcitvities (activities that are triggered when a user submits an elements form). 
+ 
+When creating activites, you must define a matching criteria, and a trigger that gets executed when there is a match:
+
+```
+@Component
+@RequiredArgsConstructor
+public class FetchTradesActivity extends FormReplyActivity<FormReplyContext> {
+    private final MessageService messages;
+    private final TradeService tradeService;
+    private final List<String> tradeStates = Arrays.stream(TradeState.values())
+        .map(TradeState::name).collect(Collectors.toList());
+
+    @Override
+    protected ActivityMatcher<FormReplyContext> matcher() {
+        return context -> tradeStates.contains(context.getFormId())
+            && "submit".equals(context.getFormValue("action"));
+    }
+
+    @Override
+    protected void onActivity(FormReplyContext context) {
+        String state = context.getFormId();
+        log.debug("looking for {} trades", state);
+
+        String counterparty = context.getFormValue("counterparty");
+        String streamId = context.getSourceEvent().getStream().getStreamId();
+
+        messages.send(streamId, "Fetching Trades that match this criteria...");
+        List<Trade> trades = tradeService.getTrades(counterparty, TradeState.valueOf(state));
+
+        if (trades.isEmpty()) {
+            messages.send(streamId, "No " + state + " trades for this counterparty");
+            return;
+        }
+
+        String message = messages.templates()
+            .newTemplateFromClasspath("/templates/trade_table.ftl")
+            .process(Map.of("trades", trades));
+        messages.send(streamId, message);
+    }
+```    
+
+### 4.  Templating
+
+Lastly, our Bot leverages message templating in order to dynamically present trade data returned from MongoDB to users:
+
+Build the template:
+```
+String message = messages.templates()
+            .newTemplateFromClasspath("/templates/trade_table.ftl")
+            .process(Map.of("trades", trades));
+        messages.send(streamId, message);
+```
+
+Build your MessageML form and easily inject data dynamically:
+```
+<form id="trade-table">
+    <h2>Select team members to help resolve trade breaks:</h2>
+    <person-selector name="person-selector" required="true" placeholder="Required" />
+    <table>
+        <thead>
+        <tr>
+            <td>Counterparty</td>
+            <td>Status</td>
+            <td>State</td>
+            <td>Description</td>
+            <td>Portfolio</td>
+            <td>Price</td>
+            <td>Quantity</td>
+            <td>Select</td>
+        </tr>
+        </thead>
+        <tbody>
+            <#list trades as trade>
+                <tr>
+                    <td>${trade.counterparty}</td>
+                    <td>${trade.status}</td>
+                    <td>${trade.state}</td>
+                    <td>${trade.description}</td>
+                    <td>${trade.portfolio}</td>
+                    <td>${trade.price}</td>
+                    <td>${trade.quantity}</td>
+                    <td>${trade.transaction}</td>
+                    <td>
+                        <button name="resolve-${trade.id}" type="action">
+                            RESOLVE
+                        </button>
+                    </td>
+                </tr>
+            </#list>
+        </tbody>
+    </table>
+</form>
+
+```
+
 ## Getting Started with NLP
 
 For our Symphony Bot, we are leveraging Rasa NLP as our NLP engine.  We chose to use Rasa NLP because it is open source and able to be trained/run locally.  The business logic of this bot application is decoupled from the NLP engine so that one could replace Rasa with an NLP engine of choice.

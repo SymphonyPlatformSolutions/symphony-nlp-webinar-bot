@@ -20,6 +20,7 @@ spring:
 logging:
   level:
     com.symphony.devrel.nlpbot: debug
+    com.symphony.bdk: ERROR
     org.apache.catalina.core: ERROR
     org.springframework: ERROR
     org.mongodb.driver: ERROR
